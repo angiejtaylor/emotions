@@ -30,58 +30,19 @@ h1 {
   margin: auto;
 }
 
-.emotions {
+.controls {
+  margin-bottom: 2rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 1.5rem;
-}
-
-.emotion {
-  background: #ffffffcc;
-  border: 3px solid #ff3bd7;
-  border-radius: 16px;
-  padding: 1.2rem;
-  font-size: 2.5rem;
-  color: #ff007c;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.3s;
-  width: 100px;
-  height: 110px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.emotion span {
-  font-size: 1rem;
-  margin-top: 0.4rem;
-}
-
-.emotion:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 20px #ff3bd7;
-}
-
-.response {
-  margin-top: 2rem;
-  font-size: 1.2rem;
-  padding: 1.2rem;
-  background-color: #fff0f8;
-  border-radius: 12px;
-  color: #c60071;
-  box-shadow: 0 0 15px #ff7dd8;
-}
-
-.controls {
-  margin-bottom: 1.5rem;
-  display: flex;
-  justify-content: center;
   gap: 2rem;
   align-items: center;
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: #ff007c;
+  background: #fff0f8;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 0 10px #ff69eb;
 }
 
 .volume-control {
@@ -111,4 +72,46 @@ h1 {
   width: 100px;
   accent-color: #ff007c;
   cursor: pointer;
+}
+
+.emotions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.emotion {
+  background: linear-gradient(145deg, #fff0f8, #ffd8ec);
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(255, 105, 235, 0.4);
+  font-size: 2.5rem;
+  width: 110px;
+  height: 120px;
+  transition: transform 0.2s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.emotion span {
+  font-size: 1rem;
+  margin-top: 0.4rem;
+}
+
+.emotion:hover {
+  transform: scale(1.1) rotate(-2deg);
+  box-shadow: 0 0 15px #ff69eb;
+}
+
+.response {
+  margin-top: 2rem;
+  font-size: 1.2rem;
+  padding: 1.2rem;
+  background-color: #fff0f8;
+  border-radius: 12px;
+  color: #c60071;
+  box-shadow: 0 0 15px #ff7dd8;
 }

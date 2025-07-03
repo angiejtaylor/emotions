@@ -3,6 +3,7 @@ const volumeIcon = document.getElementById("volumeIcon");
 const volumeSlider = document.getElementById("volumeSlider");
 
 let isMuted = false;
+let selectedVoice = null;
 
 const actions = {
   happy: [
@@ -33,23 +34,13 @@ const speak = (text) => {
   if (isMuted || parseFloat(volumeSlider.value) === 0) return;
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.volume = parseFloat(volumeSlider.value);
-  utterance.lang = "en-US";
-  window.speechSynthesis.speak(utterance);
-};
-
-volumeIcon.addEventListener("click", () => {
-  isMuted = !isMuted;
-  updateVolumeIcon();
-});
-
-volumeSlider.addEventListener("input", () => {
-  if (parseFloat(volumeSlider.value) === 0) {
-    isMuted = true;
-  } else {
-    isMuted = false;
+  utterance.pitch = 1.2;
+  utterance.rate = 0.9;
+  if (selectedVoice) {
+    utterance.voice = selectedVoice;
   }
-  updateVolumeIcon();
-});
+  speechSynthesis.speak(utterance);
+};
 
 function updateVolumeIcon() {
   if (isMuted || parseFloat(volumeSlider.value) === 0) {
@@ -61,6 +52,16 @@ function updateVolumeIcon() {
   }
 }
 
+volumeIcon.addEventListener("click", () => {
+  isMuted = !isMuted;
+  updateVolumeIcon();
+});
+
+volumeSlider.addEventListener("input", () => {
+  isMuted = parseFloat(volumeSlider.value) === 0;
+  updateVolumeIcon();
+});
+
 document.querySelectorAll(".emotion").forEach(button => {
   button.addEventListener("click", () => {
     const feeling = button.dataset.feeling;
@@ -71,5 +72,11 @@ document.querySelectorAll(".emotion").forEach(button => {
   });
 });
 
-// Initialize icon
+function setVoicePreference() {
+  const voices = speechSynthesis.getVoices();
+  selectedVoice = voices.find(v => v.name === "Google US English") || voices[0];
+}
+
+window.speechSynthesis.onvoiceschanged = setVoicePreference;
+setVoicePreference();
 updateVolumeIcon();
