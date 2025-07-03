@@ -223,6 +223,7 @@ h1 {
   opacity: 0.9;
   border-radius: 0;
   box-shadow: 0 0 8px #00ffee;
+  transition: border-radius 0.1s ease;
 }
 .robot-speaking .robot-mouth .bar:nth-child(1) {
   animation: barAnim 0.3s infinite alternate;
@@ -253,6 +254,10 @@ h1 {
 .robot-speaking .robot-mouth .bar {
   animation: barAnim 0.4s infinite alternate;
   transform-origin: center;
+  border-radius: 3px;
+  box-shadow: 0 0 10px #00ffee;
+
+
 }
 
 /* Responsive tweaks if needed */
