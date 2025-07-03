@@ -10,6 +10,9 @@ body {
   text-align: center;
   padding: 1rem;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
 @keyframes neonPulse {
@@ -26,8 +29,13 @@ h1 {
 }
 
 .app-container {
-  max-width: 600px;
+  max-width: 100%;
   margin: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .controls {
@@ -43,6 +51,8 @@ h1 {
   padding: 1rem;
   border-radius: 12px;
   box-shadow: 0 0 10px #ff69eb;
+  max-height: 30vh;
+  overflow-y: auto;
 }
 
 .volume-control {
@@ -72,6 +82,23 @@ h1 {
   width: 100px;
   accent-color: #ff007c;
   cursor: pointer;
+}
+
+.voice-select {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#voicePicker {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 2px solid #ff69eb;
+  background: #fff0f8;
+  color: #c60071;
+  box-shadow: 0 0 5px #ff8edf;
 }
 
 .emotions {
@@ -115,3 +142,131 @@ h1 {
   color: #c60071;
   box-shadow: 0 0 15px #ff7dd8;
 }
+
+/* ======================
+   BIG ROBOT STYLE
+====================== */
+
+.robot-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+  margin-bottom: 1.5rem;
+}
+
+.robot {
+  width: 90vw;
+  height: 60vh;
+  background-color: #aaf0ff;
+  border-radius: 20px;
+  border: 4px solid #00bcd4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 15px #00bcd4;
+  position: relative;
+}
+
+.robot-screen {
+  width: 70vw;
+  height: 40vh;
+  background-color: #ffffff; /* deep gray-black like a screen */
+  border: 4px solid #00bcd4;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 20px #00bcd4;
+}
+.robot-face {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.robot-eyes {
+  display: flex;
+  gap: 3vw;
+  margin-bottom: 2vh;
+}
+
+.eye {
+  width: 9vw;
+  height: 9vw;
+  background-color: #00ffee;
+  border-radius: 50%;
+  box-shadow: 0 0 5px #00ffee;
+}
+
+.robot-mouth {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5vw;
+  width: 25vw;
+  height: 5vh;
+  background: #aaf0ff;
+  border: 3px solid #aaf0ff;
+  border-radius: 10px;
+  padding: 0.5vh;
+  margin-top: 2vh;
+  overflow: hidden;
+}
+
+.robot-mouth .bar {
+  width: 5vw;
+  height: 3vh;
+  background: #ffffff;
+  opacity: 0.9;
+  border-radius: 0;
+  box-shadow: 0 0 8px #00ffee;
+}
+.robot-speaking .robot-mouth .bar:nth-child(1) {
+  animation: barAnim 0.3s infinite alternate;
+}
+.robot-speaking .robot-mouth .bar:nth-child(2) {
+  animation: barAnim 0.4s infinite alternate;
+}
+.robot-speaking .robot-mouth .bar:nth-child(3) {
+  animation: barAnim 0.35s infinite alternate;
+}
+.robot-speaking .robot-mouth .bar:nth-child(4) {
+  animation: barAnim 0.5s infinite alternate;
+}
+.robot-speaking .robot-mouth .bar:nth-child(5) {
+  animation: barAnim 0.25s infinite alternate;
+}
+
+.robot-mouth .bar:nth-child(1) { height: 2.9vh; }
+.robot-mouth .bar:nth-child(2) { height: 3vh; }
+.robot-mouth .bar:nth-child(3) { height: 2.9vh; }
+.robot-mouth .bar:nth-child(4) { height: 3vh; }
+.robot-mouth .bar:nth-child(5) { height: 2.9vh; }
+
+@keyframes barAnim {
+  0% { transform: scaleY(1); }
+  100% { transform: scaleY(1.8); }
+}
+.robot-speaking .robot-mouth .bar {
+  animation: barAnim 0.4s infinite alternate;
+  transform-origin: center;
+}
+
+/* Responsive tweaks if needed */
+@media (max-width: 500px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .robot {
+    height: 50vh;
+  }
+
+  .robot-screen {
+    height: 30vh;
+  }
+}
+

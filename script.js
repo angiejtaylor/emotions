@@ -1,9 +1,12 @@
 const responseBox = document.getElementById("response");
 const volumeIcon = document.getElementById("volumeIcon");
 const volumeSlider = document.getElementById("volumeSlider");
+const voicePicker = document.getElementById("voicePicker");
+const robot = document.getElementById("robot");
 
 let isMuted = false;
 let selectedVoice = null;
+let allVoices = [];
 
 const actions = {
   happy: [
@@ -39,6 +42,11 @@ const speak = (text) => {
   if (selectedVoice) {
     utterance.voice = selectedVoice;
   }
+
+  robot.classList.add("robot-speaking");
+  utterance.onend = () => robot.classList.remove("robot-speaking");
+  utterance.onerror = () => robot.classList.remove("robot-speaking");
+
   speechSynthesis.speak(utterance);
 };
 
@@ -72,11 +80,30 @@ document.querySelectorAll(".emotion").forEach(button => {
   });
 });
 
-function setVoicePreference() {
-  const voices = speechSynthesis.getVoices();
-  selectedVoice = voices.find(v => v.name === "Google US English") || voices[0];
+function populateVoicePicker() {
+  allVoices = speechSynthesis.getVoices();
+  voicePicker.innerHTML = "";
+  allVoices.forEach((voice) => {
+    const option = document.createElement("option");
+    option.value = voice.name;
+    option.textContent = `${voice.name} — ${voice.lang}`;
+    if (voice.name === "Zarvox") {
+      option.selected = true;
+      selectedVoice = voice;
+    }
+    voicePicker.appendChild(option);
+  });
+
+  if (!selectedVoice && allVoices.length > 0) {
+    selectedVoice = allVoices[0];
+  }
 }
 
-window.speechSynthesis.onvoiceschanged = setVoicePreference;
-setVoicePreference();
+voicePicker.addEventListener("change", () => {
+  const selectedName = voicePicker.value;
+  selectedVoice = allVoices.find(v => v.name === selectedName);
+});
+
+speechSynthesis.onvoiceschanged = populateVoicePicker;
+populateVoicePicker();
 updateVolumeIcon();
