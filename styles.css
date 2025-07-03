@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap');
+
+body {
+  margin: 0;
+  background: linear-gradient(135deg, #ff7ce0, #ffa8ee, #ffe7fa);
+  background-size: 400% 400%;
+  animation: neonPulse 10s ease infinite;
+  color: #ff007c;
+  font-family: 'Fredoka', sans-serif;
+  text-align: center;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+@keyframes neonPulse {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+h1 {
+  font-size: 2rem;
+  color: #ff007c;
+  text-shadow: 0 0 12px #ff3bd7;
+  margin-bottom: 1.5rem;
+}
+
+.app-container {
+  max-width: 600px;
+  margin: auto;
+}
+
+.emotions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.emotion {
+  background: #ffffffcc;
+  border: 3px solid #ff3bd7;
+  border-radius: 16px;
+  padding: 1.2rem;
+  font-size: 2.5rem;
+  color: #ff007c;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.3s;
+  width: 100px;
+  height: 110px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.emotion span {
+  font-size: 1rem;
+  margin-top: 0.4rem;
+}
+
+.emotion:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px #ff3bd7;
+}
+
+.response {
+  margin-top: 2rem;
+  font-size: 1.2rem;
+  padding: 1.2rem;
+  background-color: #fff0f8;
+  border-radius: 12px;
+  color: #c60071;
+  box-shadow: 0 0 15px #ff7dd8;
+}
