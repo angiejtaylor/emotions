@@ -73,3 +73,42 @@ h1 {
   color: #c60071;
   box-shadow: 0 0 15px #ff7dd8;
 }
+
+.controls {
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  align-items: center;
+  font-size: 1rem;
+  color: #ff007c;
+}
+
+.volume-control {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: #ffe0f5;
+  padding: 0.8rem 1rem;
+  border-radius: 12px;
+  box-shadow: 0 0 10px #ff8edf;
+}
+
+#volumeIcon {
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #ff007c;
+  transition: transform 0.2s;
+}
+
+#volumeIcon:hover {
+  transform: scale(1.2);
+}
+
+#volumeSlider {
+  width: 100px;
+  accent-color: #ff007c;
+  cursor: pointer;
+}
