@@ -1,6 +1,8 @@
 const responseBox = document.getElementById("response");
-const voiceToggle = document.getElementById("voiceToggle");
-const volumeControl = document.getElementById("volumeControl");
+const volumeIcon = document.getElementById("volumeIcon");
+const volumeSlider = document.getElementById("volumeSlider");
+
+let isMuted = false;
 
 const actions = {
   happy: [
@@ -17,16 +19,47 @@ const actions = {
     "Stomp your feet 5 times!",
     "Roar like a lion!",
     "Punch a pillow safely!"
+  ],
+  disappointed: [
+    "Take a deep breath and say, 'It’s okay to feel this way.'",
+    "Talk to a grown-up about it.",
+    "Give yourself a big hug.",
+    "Try again or pick a different fun thing to do.",
+    "Draw or color how you feel."
   ]
 };
 
 const speak = (text) => {
-  if (!voiceToggle.checked) return;
+  if (isMuted || parseFloat(volumeSlider.value) === 0) return;
   const utterance = new SpeechSynthesisUtterance(text);
-  utterance.volume = parseFloat(volumeControl.value);
+  utterance.volume = parseFloat(volumeSlider.value);
   utterance.lang = "en-US";
   window.speechSynthesis.speak(utterance);
 };
+
+volumeIcon.addEventListener("click", () => {
+  isMuted = !isMuted;
+  updateVolumeIcon();
+});
+
+volumeSlider.addEventListener("input", () => {
+  if (parseFloat(volumeSlider.value) === 0) {
+    isMuted = true;
+  } else {
+    isMuted = false;
+  }
+  updateVolumeIcon();
+});
+
+function updateVolumeIcon() {
+  if (isMuted || parseFloat(volumeSlider.value) === 0) {
+    volumeIcon.textContent = "🔇";
+  } else if (parseFloat(volumeSlider.value) < 0.5) {
+    volumeIcon.textContent = "🔈";
+  } else {
+    volumeIcon.textContent = "🔊";
+  }
+}
 
 document.querySelectorAll(".emotion").forEach(button => {
   button.addEventListener("click", () => {
@@ -37,3 +70,6 @@ document.querySelectorAll(".emotion").forEach(button => {
     speak(random);
   });
 });
+
+// Initialize icon
+updateVolumeIcon();
