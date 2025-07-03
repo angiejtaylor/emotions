@@ -9,30 +9,45 @@
 <body>
   <div class="app-container">
     <h1>How Are You Feeling?</h1>
+
+    <div class="robot-container">
+      <div class="robot" id="robot">
+        <div class="robot-screen">
+          <div class="robot-face">
+            <div class="robot-eyes">
+              <div class="eye"></div>
+              <div class="eye"></div>
+            </div>
+            <div class="robot-mouth" id="robotMouth">
+              <div class="bar"></div>
+              <div class="bar"></div>
+              <div class="bar"></div>
+              <div class="bar"></div>
+              <div class="bar"></div>            
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="controls">
       <div class="volume-control">
         <button id="volumeIcon" aria-label="Toggle Sound">🔊</button>
         <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1" />
       </div>
+      <div class="voice-select">
+        <label for="voicePicker">Voice:</label>
+        <select id="voicePicker"></select>
+      </div>
     </div>
+
     <div class="emotions">
-      <button class="emotion" data-feeling="happy">
-        😊
-        <span>Happy</span>
-      </button>
-      <button class="emotion" data-feeling="sad">
-        😢
-        <span>Sad</span>
-      </button>
-      <button class="emotion" data-feeling="angry">
-        😡
-        <span>Angry</span>
-      </button>
-      <button class="emotion" data-feeling="disappointed">
-        😞
-        <span>Disappointed</span>
-      </button>
+      <button class="emotion" data-feeling="happy">😊<span>Happy</span></button>
+      <button class="emotion" data-feeling="sad">😢<span>Sad</span></button>
+      <button class="emotion" data-feeling="angry">😡<span>Angry</span></button>
+      <button class="emotion" data-feeling="disappointed">😞<span>Disappointed</span></button>
     </div>
+
     <div class="response" id="response"></div>
   </div>
   <script src="script.js"></script>

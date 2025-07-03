@@ -1,8 +1,12 @@
 const responseBox = document.getElementById("response");
 const volumeIcon = document.getElementById("volumeIcon");
 const volumeSlider = document.getElementById("volumeSlider");
+const voicePicker = document.getElementById("voicePicker");
+const robot = document.getElementById("robot");
 
 let isMuted = false;
+let selectedVoice = null;
+let allVoices = [];
 
 const actions = {
   happy: [
@@ -33,23 +37,18 @@ const speak = (text) => {
   if (isMuted || parseFloat(volumeSlider.value) === 0) return;
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.volume = parseFloat(volumeSlider.value);
-  utterance.lang = "en-US";
-  window.speechSynthesis.speak(utterance);
-};
-
-volumeIcon.addEventListener("click", () => {
-  isMuted = !isMuted;
-  updateVolumeIcon();
-});
-
-volumeSlider.addEventListener("input", () => {
-  if (parseFloat(volumeSlider.value) === 0) {
-    isMuted = true;
-  } else {
-    isMuted = false;
+  utterance.pitch = 1.2;
+  utterance.rate = 0.9;
+  if (selectedVoice) {
+    utterance.voice = selectedVoice;
   }
-  updateVolumeIcon();
-});
+
+  robot.classList.add("robot-speaking");
+  utterance.onend = () => robot.classList.remove("robot-speaking");
+  utterance.onerror = () => robot.classList.remove("robot-speaking");
+
+  speechSynthesis.speak(utterance);
+};
 
 function updateVolumeIcon() {
   if (isMuted || parseFloat(volumeSlider.value) === 0) {
@@ -61,6 +60,16 @@ function updateVolumeIcon() {
   }
 }
 
+volumeIcon.addEventListener("click", () => {
+  isMuted = !isMuted;
+  updateVolumeIcon();
+});
+
+volumeSlider.addEventListener("input", () => {
+  isMuted = parseFloat(volumeSlider.value) === 0;
+  updateVolumeIcon();
+});
+
 document.querySelectorAll(".emotion").forEach(button => {
   button.addEventListener("click", () => {
     const feeling = button.dataset.feeling;
@@ -71,5 +80,30 @@ document.querySelectorAll(".emotion").forEach(button => {
   });
 });
 
-// Initialize icon
+function populateVoicePicker() {
+  allVoices = speechSynthesis.getVoices();
+  voicePicker.innerHTML = "";
+  allVoices.forEach((voice) => {
+    const option = document.createElement("option");
+    option.value = voice.name;
+    option.textContent = `${voice.name} — ${voice.lang}`;
+    if (voice.name === "Zarvox") {
+      option.selected = true;
+      selectedVoice = voice;
+    }
+    voicePicker.appendChild(option);
+  });
+
+  if (!selectedVoice && allVoices.length > 0) {
+    selectedVoice = allVoices[0];
+  }
+}
+
+voicePicker.addEventListener("change", () => {
+  const selectedName = voicePicker.value;
+  selectedVoice = allVoices.find(v => v.name === selectedName);
+});
+
+speechSynthesis.onvoiceschanged = populateVoicePicker;
+populateVoicePicker();
 updateVolumeIcon();
