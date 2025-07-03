@@ -73,3 +73,13 @@ h1 {
   color: #c60071;
   box-shadow: 0 0 15px #ff7dd8;
 }
+
+.controls {
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  align-items: center;
+  font-size: 1rem;
+  color: #ff007c;
+}

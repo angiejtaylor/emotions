@@ -9,6 +9,16 @@
 <body>
   <div class="app-container">
     <h1>How Are You Feeling?</h1>
+    <div class="controls">
+      <label>
+        🔊 Voice:
+        <input type="checkbox" id="voiceToggle" checked />
+      </label>
+      <label>
+        🔉 Volume:
+        <input type="range" id="volumeControl" min="0" max="1" step="0.1" value="1" />
+      </label>
+    </div>
     <div class="emotions">
       <button class="emotion" data-feeling="happy">
         😊

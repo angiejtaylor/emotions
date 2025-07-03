@@ -1,4 +1,6 @@
 const responseBox = document.getElementById("response");
+const voiceToggle = document.getElementById("voiceToggle");
+const volumeControl = document.getElementById("volumeControl");
 
 const actions = {
   happy: [
@@ -18,11 +20,20 @@ const actions = {
   ]
 };
 
+const speak = (text) => {
+  if (!voiceToggle.checked) return;
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.volume = parseFloat(volumeControl.value);
+  utterance.lang = "en-US";
+  window.speechSynthesis.speak(utterance);
+};
+
 document.querySelectorAll(".emotion").forEach(button => {
   button.addEventListener("click", () => {
     const feeling = button.dataset.feeling;
     const options = actions[feeling];
     const random = options[Math.floor(Math.random() * options.length)];
     responseBox.innerHTML = `<p>${random}</p>`;
+    speak(random);
   });
 });
