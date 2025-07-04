@@ -1,8 +1,8 @@
-const responseBox = document.getElementById("response");
 const volumeIcon = document.getElementById("volumeIcon");
 const volumeSlider = document.getElementById("volumeSlider");
 const voicePicker = document.getElementById("voicePicker");
 const robot = document.getElementById("robot");
+const introBubble = document.getElementById("introBubble");
 
 let isMuted = false;
 let selectedVoice = null;
@@ -39,13 +39,26 @@ const speak = (text) => {
   utterance.volume = parseFloat(volumeSlider.value);
   utterance.pitch = 1.2;
   utterance.rate = 0.9;
+
   if (selectedVoice) {
     utterance.voice = selectedVoice;
+  } else {
+    const fallback = speechSynthesis.getVoices().find(v => v.lang === "en-US" && v.name.includes("Google")) 
+                  || speechSynthesis.getVoices().find(v => v.lang.startsWith("en"));
+    utterance.voice = fallback;
+    selectedVoice = fallback;
   }
 
+  console.log("Robot is speaking:", text);
   robot.classList.add("robot-speaking");
-  utterance.onend = () => robot.classList.remove("robot-speaking");
-  utterance.onerror = () => robot.classList.remove("robot-speaking");
+  utterance.onend = () => {
+    console.log("Speech ended");
+    robot.classList.remove("robot-speaking");
+  };
+  utterance.onerror = (e) => {
+    console.error("Speech error:", e);
+    robot.classList.remove("robot-speaking");
+  };
 
   speechSynthesis.speak(utterance);
 };
@@ -75,14 +88,22 @@ document.querySelectorAll(".emotion").forEach(button => {
     const feeling = button.dataset.feeling;
     const options = actions[feeling];
     const random = options[Math.floor(Math.random() * options.length)];
-    responseBox.innerHTML = `<p>${random}</p>`;
+
+    if (introBubble) {
+      introBubble.textContent = random;
+      introBubble.style.opacity = "1";
+      introBubble.style.transition = "none";
+    }
+
     speak(random);
   });
 });
 
 function populateVoicePicker() {
   allVoices = speechSynthesis.getVoices();
+  console.log("Available voices:", allVoices);
   voicePicker.innerHTML = "";
+
   allVoices.forEach((voice) => {
     const option = document.createElement("option");
     option.value = voice.name;
@@ -95,15 +116,55 @@ function populateVoicePicker() {
   });
 
   if (!selectedVoice && allVoices.length > 0) {
-    selectedVoice = allVoices[0];
+    selectedVoice = allVoices.find(v => v.lang.startsWith("en")) || allVoices[0];
   }
+
+  console.log("Selected voice:", selectedVoice);
 }
 
-voicePicker.addEventListener("change", () => {
-  const selectedName = voicePicker.value;
-  selectedVoice = allVoices.find(v => v.name === selectedName);
-});
+if (speechSynthesis.getVoices().length > 0) {
+  populateVoicePicker();
+} else {
+  speechSynthesis.onvoiceschanged = populateVoicePicker;
+  setTimeout(() => {
+    if (!selectedVoice) {
+      populateVoicePicker();
+    }
+  }, 1000);
+}
 
-speechSynthesis.onvoiceschanged = populateVoicePicker;
-populateVoicePicker();
 updateVolumeIcon();
+
+function speakIntroOnce() {
+  console.log("Click received ✅");
+
+  const introText = "Hi, how are you feeling?";
+
+  const tryToSpeak = () => {
+    allVoices = speechSynthesis.getVoices();
+    if (!selectedVoice && allVoices.length > 0) {
+      selectedVoice = allVoices.find(v => v.lang.startsWith("en")) || allVoices[0];
+    }
+
+    if (introBubble && selectedVoice) {
+      introBubble.textContent = introText;
+      introBubble.style.opacity = "1";
+      introBubble.style.transition = "none";
+      speak(introText);
+    }
+  };
+
+  tryToSpeak();
+  speechSynthesis.onvoiceschanged = tryToSpeak;
+  const dummy = new SpeechSynthesisUtterance(" ");
+  dummy.volume = 0;
+  speechSynthesis.speak(dummy);
+
+  document.removeEventListener("click", speakIntroOnce);
+  document.removeEventListener("touchstart", speakIntroOnce);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("click", speakIntroOnce, { once: true });
+  document.addEventListener("touchstart", speakIntroOnce, { once: true });
+});
