@@ -8,9 +8,9 @@
 </head>
 <body>
   <div class="app-container">
-    <h1>How Are You Feeling?</h1>
-
     <div class="robot-container">
+      <div class="speech-bubble" id="introBubble"> 👉 👉 👉 Touch the screen! </div>
+
       <div class="robot" id="robot">
         <div class="robot-screen">
           <div class="robot-face">
@@ -30,6 +30,13 @@
       </div>
     </div>
 
+
+    <div class="emotions">
+      <button class="emotion" data-feeling="happy">😊<span>Happy</span></button>
+      <button class="emotion" data-feeling="sad">😢<span>Sad</span></button>
+      <button class="emotion" data-feeling="angry">😡<span>Angry</span></button>
+      <button class="emotion" data-feeling="disappointed">😞<span>Disappointed</span></button>
+    </div>
     <div class="controls">
       <div class="volume-control">
         <button id="volumeIcon" aria-label="Toggle Sound">🔊</button>
@@ -41,14 +48,6 @@
       </div>
     </div>
 
-    <div class="emotions">
-      <button class="emotion" data-feeling="happy">😊<span>Happy</span></button>
-      <button class="emotion" data-feeling="sad">😢<span>Sad</span></button>
-      <button class="emotion" data-feeling="angry">😡<span>Angry</span></button>
-      <button class="emotion" data-feeling="disappointed">😞<span>Disappointed</span></button>
-    </div>
-
-    <div class="response" id="response"></div>
   </div>
   <script src="script.js"></script>
 </body>
