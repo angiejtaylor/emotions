@@ -39,20 +39,40 @@ h1 {
 }
 
 .controls {
+  margin-top: 2rem;
   margin-bottom: 2rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 2rem;
   align-items: center;
-  font-size: 1.1rem;
+  font-size: .8rem;
   color: #ff007c;
-  background: #fff0f8;
-  padding: 1rem;
-  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.05); /* optional for contrast */
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: opacity 0.3s ease;
   box-shadow: 0 0 10px #ff69eb;
   max-height: 30vh;
   overflow-y: auto;
+  opacity: 0.4;
+}
+
+.controls:hover {
+  opacity: 1;
+  transform: scale(1);
+
+}
+.controls select,
+.controls input[type="range"],
+.controls button {
+  font-size: 0.8rem;
+  padding: 0.4rem 0.6rem;
+  max-width: 150px;
+}
+
+.volume-control input[type="range"] {
+  height: 4px;
 }
 
 .volume-control {
