@@ -9,21 +9,9 @@ let selectedVoice = null;
 let allVoices = [];
 
 const actions = {
-  happy: [
-    "Do a happy dance!",
-    "Give someone a high-five!",
-    "Sing your favorite song!"
-  ],
-  sad: [
-    "Take 3 deep breaths.",
-    "Hug a stuffed animal.",
-    "Draw how you feel."
-  ],
-  angry: [
-    "Stomp your feet 5 times!",
-    "Roar like a lion!",
-    "Punch a pillow safely!"
-  ],
+  happy: ["Do a happy dance!", "Give someone a high-five!", "Sing your favorite song!"],
+  sad: ["Take 3 deep breaths.", "Hug a stuffed animal.", "Draw how you feel."],
+  angry: ["Stomp your feet 5 times!", "Roar like a lion!", "Punch a pillow safely!"],
   disappointed: [
     "Take a deep breath and say, 'It’s okay to feel this way.'",
     "Talk to a grown-up about it.",
@@ -139,32 +127,37 @@ function speakIntroOnce() {
   console.log("Click received ✅");
 
   const introText = "Hi, how are you feeling?";
+  if (introBubble && selectedVoice) {
+    introBubble.textContent = introText;
+    introBubble.style.opacity = "1";
+    introBubble.style.transition = "none";
 
-  const tryToSpeak = () => {
-    allVoices = speechSynthesis.getVoices();
-    if (!selectedVoice && allVoices.length > 0) {
-      selectedVoice = allVoices.find(v => v.lang.startsWith("en")) || allVoices[0];
-    }
+    // Speak right here – directly in the gesture handler
+    const utterance = new SpeechSynthesisUtterance(introText);
+    utterance.voice = selectedVoice;
+    utterance.volume = parseFloat(volumeSlider.value);
+    utterance.pitch = 1.2;
+    utterance.rate = 0.9;
 
-    if (introBubble && selectedVoice) {
-      introBubble.textContent = introText;
-      introBubble.style.opacity = "1";
-      introBubble.style.transition = "none";
-      speak(introText);
-    }
-  };
+    utterance.onend = () => robot.classList.remove("robot-speaking");
+    utterance.onerror = (e) => {
+      console.error("Speech error:", e);
+      robot.classList.remove("robot-speaking");
+    };
 
-  tryToSpeak();
-  speechSynthesis.onvoiceschanged = tryToSpeak;
-  const dummy = new SpeechSynthesisUtterance(" ");
-  dummy.volume = 0;
-  speechSynthesis.speak(dummy);
+    robot.classList.add("robot-speaking");
+    speechSynthesis.speak(utterance);
+  }
 
+  // Clean up listeners
   document.removeEventListener("click", speakIntroOnce);
   document.removeEventListener("touchstart", speakIntroOnce);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  document.addEventListener("click", speakIntroOnce, { once: true });
-  document.addEventListener("touchstart", speakIntroOnce, { once: true });
+  const bubble = document.getElementById("introBubble");
+  if (bubble) {
+    bubble.addEventListener("click", speakIntroOnce, { once: true });
+    bubble.addEventListener("touchstart", speakIntroOnce, { once: true });
+  }
 });
